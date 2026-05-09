@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 
 namespace BackroomsShooter.Generation
 {
@@ -15,6 +16,13 @@ namespace BackroomsShooter.Generation
 
         private WFC_Cell[,] _grid;
         private List<TileVariant> _allVariants;
+
+        private NavMeshSurface _navMeshSurface;
+
+        private void Awake()
+        {
+            _navMeshSurface = GetComponent<NavMeshSurface>();
+        }
 
         private void Start()
         {
@@ -52,6 +60,13 @@ namespace BackroomsShooter.Generation
             }
 
             SpawnLevel();
+
+            if (_navMeshSurface != null)
+            {
+                _navMeshSurface.BuildNavMesh();
+                Debug.Log("NavMesh baked.");
+            }
+
         }
 
         private void InitializeVariants()
