@@ -15,6 +15,6 @@ namespace BackroomsShooter.Generation
 
         [Header("Settings")]
         [Range(1, 100)]
-        public int weight = 10;
+        public int Weight = 10;
     }
 }

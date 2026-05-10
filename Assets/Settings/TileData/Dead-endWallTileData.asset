@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e17d871ab588cc479afce587f6a4410, type: 3}
-  m_Name: Wall_Data
+  m_Name: Dead-endWallTileData
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Generation.TileData
-  Prefab: {fileID: 7032042031103299901, guid: 040f7d4370c369845ab6aa53574f9c28, type: 3}
+  Prefab: {fileID: 7485524144622549348, guid: abe62d92b4f44cd4e880485a87f186dc, type: 3}
   SocketTop: Wall
-  SocketBottom: Wall
+  SocketBottom: Empty
   SocketLeft: Wall
   SocketRight: Wall
   weight: 10

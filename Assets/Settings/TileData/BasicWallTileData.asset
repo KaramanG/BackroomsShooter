@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e17d871ab588cc479afce587f6a4410, type: 3}
-  m_Name: Floor_Data
+  m_Name: BasicWallTileData
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Generation.TileData
-  Prefab: {fileID: 2800453694861955068, guid: 28f7aeb1334c01c41919f7cfea418ae8, type: 3}
-  SocketTop: Empty
+  Prefab: {fileID: 7485524144622549348, guid: 48a859490775ee645a486e79d628b5cf, type: 3}
+  SocketTop: Wall
   SocketBottom: Empty
   SocketLeft: Empty
   SocketRight: Empty
