@@ -1,5 +1,4 @@
 using BackroomsShooter.Core;
-using System.Collections;
 using UnityEngine;
 
 namespace BackroomsShooter.Player
