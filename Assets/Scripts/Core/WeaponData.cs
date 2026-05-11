@@ -17,6 +17,11 @@ namespace BackroomsShooter.Core
         public int MaxAmmo = 30;
         public float ReloadTime = 1.5f;
 
+        [Header("Sounds")]
+        public AudioClip ShootSound;
+        [Range(0f, 1f)]
+        public float ShootVolume;
+
         [Header("Visuals")]
         public GameObject WeaponModelPrefab;
     }

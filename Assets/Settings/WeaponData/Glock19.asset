@@ -19,4 +19,6 @@ MonoBehaviour:
   NoiseRadius: 50
   MaxAmmo: 15
   ReloadTime: 2
+  ShootSound: {fileID: 8300000, guid: 84c9fc35f5ab14a46bc6623fd13c13d4, type: 3}
+  ShootVolume: 1
   WeaponModelPrefab: {fileID: 0}

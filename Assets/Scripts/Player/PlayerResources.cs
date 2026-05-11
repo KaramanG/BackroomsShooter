@@ -26,8 +26,12 @@ namespace BackroomsShooter.Player
         public static event Action OnResourcesChanged;
         public static event Action OnPlayerDeath;
 
+        private PlayerSFX _playerSFX;
+
         private void Awake()
         {
+            _playerSFX = GetComponent<PlayerSFX>();
+
             CurrentHealth = MaxHealth;
             CurrentStamina = MaxStamina;
             if (CurrentWeaponData != null) CurrentAmmo = CurrentWeaponData.MaxAmmo;
@@ -45,6 +49,7 @@ namespace BackroomsShooter.Player
             CurrentHealth -= amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
             NotifyUI();
+            _playerSFX.TakeDamage();
 
             if (CurrentHealth <= 0)
             {
@@ -69,6 +74,7 @@ namespace BackroomsShooter.Player
             {
                 CurrentAmmo--;
                 NotifyUI();
+                _playerSFX.Shoot(CurrentWeaponData.ShootSound, CurrentWeaponData.ShootVolume);
             }
         }
 
@@ -86,6 +92,7 @@ namespace BackroomsShooter.Player
             if (CurrentMagazines > 0 && CurrentAmmo < CurrentWeaponData.MaxAmmo)
             {
                 StartCoroutine(ReloadCoroutine());
+                _playerSFX.Reload();
             }
         }
 
