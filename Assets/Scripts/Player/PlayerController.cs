@@ -36,7 +36,7 @@ namespace BackroomsShooter.Player
                 _mousePos = hit.point;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= _nextDashTime)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= _nextDashTime && !_resources.IsReloading)
             {
                 PerformDash();
             }
