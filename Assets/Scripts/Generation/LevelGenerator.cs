@@ -16,7 +16,7 @@ namespace BackroomsShooter.Generation
         public int GridSizeY = 25;
         public float TileSize = 10f;
 
-        [Header("Visualization")]
+        [Header("Visualization (DEV ONLY)")]
         public bool VisualizeGeneration = true;
         public float StepDelay = 0.05f;
 
@@ -130,6 +130,10 @@ namespace BackroomsShooter.Generation
         {
             _navMesh.BuildNavMesh();
             NotifyActorsLevelReady();
+
+            GameObject goal = new GameObject("ExitPoint");
+            goal.transform.position = new Vector3((GridSizeX - _centerX) * TileSize, 0, (GridSizeY - _centerY) * TileSize);
+            FindFirstObjectByType<UI.Compass>().Target = goal.transform;
         }
 
         private void NotifyActorsLevelReady()

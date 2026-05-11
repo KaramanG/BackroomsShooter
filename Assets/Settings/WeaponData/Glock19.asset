@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0e98d37597d257418d4dcf455f5678d, type: 3}
-  m_Name: TestWeapon
+  m_Name: Glock19
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.WeaponData
-  WeaponName: Test Weapon
+  WeaponName: Glock 19
+  WeaponIcon: {fileID: 21300000, guid: f1220362401f74140a3d4c4f07d6e076, type: 3}
   Damage: 10
-  FireRate: 0.2
+  FireRate: 0.5
   NoiseRadius: 50
-  MaxAmmo: 10
-  MagazineSize: 10
-  ReloadTime: 1.5
-  WeaponModelPrefab: {fileID: 3835530044212410460, guid: c5ce11e7a712d99489af82adb6b0812c, type: 3}
+  MaxAmmo: 15
+  ReloadTime: 2
+  WeaponModelPrefab: {fileID: 0}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using BackroomsShooter.Core;
 using System;
+using System.Collections;
 
 namespace BackroomsShooter.Player
 {
@@ -17,6 +18,9 @@ namespace BackroomsShooter.Player
 
         [Header("Ammo")]
         public int CurrentAmmo;
+        public int CurrentMagazines = 3;
+        public int MaxMagazines = 3;
+        public bool IsReloading = false;
         public WeaponData CurrentWeaponData;
 
         public static event Action OnResourcesChanged;
@@ -26,11 +30,7 @@ namespace BackroomsShooter.Player
         {
             CurrentHealth = MaxHealth;
             CurrentStamina = MaxStamina;
-
-            if (CurrentWeaponData != null)
-            {
-                CurrentAmmo = CurrentWeaponData.MaxAmmo;
-            }
+            if (CurrentWeaponData != null) CurrentAmmo = CurrentWeaponData.MaxAmmo;
         }
 
         private void Update()
@@ -38,11 +38,13 @@ namespace BackroomsShooter.Player
             RegenStamina();
         }
 
+        public void NotifyUI() => OnResourcesChanged?.Invoke();
+
         public void TakeDamage(int amount)
         {
             CurrentHealth -= amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
-            OnResourcesChanged?.Invoke();
+            NotifyUI();
 
             if (CurrentHealth <= 0)
             {
@@ -50,15 +52,52 @@ namespace BackroomsShooter.Player
             }
         }
 
-        public bool TryConsumeStamina(float amount)
+        public bool ConsumeStamina(float amount)
         {
             if (CurrentStamina >= amount)
             {
                 CurrentStamina -= amount;
-                OnResourcesChanged?.Invoke();
+                NotifyUI();
                 return true;
             }
             return false;
+        }
+        
+        public void UseAmmo()
+        {
+            if (CurrentAmmo > 0)
+            {
+                CurrentAmmo--;
+                NotifyUI();
+            }
+        }
+
+        public void AddMagazine()
+        {
+            if (CurrentMagazines < MaxMagazines)
+            {
+                CurrentMagazines++;
+                NotifyUI();
+            }
+        }
+
+        public void Reload()
+        {
+            if (CurrentMagazines > 0 && CurrentAmmo < CurrentWeaponData.MaxAmmo)
+            {
+                StartCoroutine(ReloadCoroutine());
+            }
+        }
+
+        private IEnumerator ReloadCoroutine()
+        {
+            IsReloading = true;
+            yield return new WaitForSeconds(CurrentWeaponData.ReloadTime);
+
+            CurrentMagazines--;
+            CurrentAmmo = CurrentWeaponData.MaxAmmo;
+            NotifyUI();
+            IsReloading = false;
         }
 
         private void RegenStamina()
@@ -67,25 +106,8 @@ namespace BackroomsShooter.Player
             {
                 CurrentStamina += StaminaRegenRate * Time.deltaTime;
                 CurrentStamina = Mathf.Min(CurrentStamina, MaxStamina);
-                OnResourcesChanged?.Invoke();
+                NotifyUI();
             }
-        }
-
-        public bool UseAmmo()
-        {
-            if (CurrentAmmo > 0)
-            {
-                CurrentAmmo--;
-                OnResourcesChanged?.Invoke();
-                return true;
-            }
-            return false;
-        }
-
-        public void AddAmmo(int amount)
-        {
-            CurrentAmmo = Mathf.Min(CurrentAmmo + amount, CurrentWeaponData.MaxAmmo);
-            OnResourcesChanged?.Invoke();
         }
 
     }

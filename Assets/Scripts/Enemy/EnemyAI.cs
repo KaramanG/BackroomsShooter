@@ -30,7 +30,6 @@ namespace BackroomsShooter.Enemy
         private void Update()
         {
             if (_player == null) return;
-
             float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
 
             switch (CurrentState)
@@ -43,6 +42,7 @@ namespace BackroomsShooter.Enemy
                     break;
 
                 case AIState.Investigate:
+                    if (!_agent.isActiveAndEnabled) break;
                     _agent.SetDestination(_lastNoisePosition);
                     if (_agent.remainingDistance <= _agent.stoppingDistance)
                     {
@@ -56,6 +56,7 @@ namespace BackroomsShooter.Enemy
                     break;
                 
                 case AIState.Chase:
+                    if (!_agent.isActiveAndEnabled) break;
                     _agent.SetDestination(_player.position);
                     if (distanceToPlayer > DetectionRange * 1.5f)
                     {

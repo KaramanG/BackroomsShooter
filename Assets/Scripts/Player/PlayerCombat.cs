@@ -1,57 +1,53 @@
 using BackroomsShooter.Core;
+using System.Collections;
 using UnityEngine;
 
 namespace BackroomsShooter.Player
 {
     public class PlayerCombat : MonoBehaviour
     {
-        public int Damage = 10;
-        public float FireRate = 0.2f;
         public Transform FirePoint;
-        public float NoiseRadius = 20f;
 
         private float _nextFireTime;
-        private PlayerResources _resources;
+        private PlayerResources _playerResources;
 
         private void Start()
         {
-            _resources = GetComponent<PlayerResources>();
+            _playerResources = GetComponent<PlayerResources>();
         }
 
         private void Update()
         {
-            if (Input.GetButton("Fire1") && Time.time >= _nextFireTime)
-            {
-                Shoot();
-                _nextFireTime = Time.time + FireRate;
-            }
+            if (Input.GetKeyDown(KeyCode.R) && !_playerResources.IsReloading) _playerResources.Reload();
+
+            if (Input.GetButton("Fire1") && Time.time >= _nextFireTime && !_playerResources.IsReloading) Shoot();
         }
 
         private void Shoot()
         {
-            if (!_resources.UseAmmo())
+            WeaponData data = _playerResources.CurrentWeaponData;
+            if (data == null || _playerResources.IsReloading) return;
+
+            if (_playerResources.CurrentAmmo <= 0)
             {
-                Debug.Log("No ammo!");
+                _playerResources.Reload();
                 return;
             }
 
-            Debug.DrawRay(FirePoint.position, FirePoint.forward * 50f, Color.red, 0.1f);
+            _playerResources.UseAmmo();
 
+            _nextFireTime = Time.time + data.FireRate;
+
+            Debug.DrawRay(FirePoint.position, FirePoint.forward * 50f, Color.red, 0.1f);
             int layerMask = ~LayerMask.GetMask("Player");
 
             if (Physics.Raycast(FirePoint.position, FirePoint.forward, out RaycastHit hit, 50f, layerMask))
             {
-                Debug.Log($"Hit: {hit.collider.name}");
-
                 IDamageable target = hit.collider.GetComponent<IDamageable>();
-                if (target != null)
-                {
-                    target.TakeDamage(Damage);
-                }
+                if (target != null) target.TakeDamage(data.Damage);
             }
 
-            NoiseManager.MakeNoise(transform.position, NoiseRadius);
-            Debug.Log($"Noise event. Radius: {NoiseRadius}");
+            NoiseManager.MakeNoise(transform.position, data.NoiseRadius);
         }
 
     }

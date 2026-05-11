@@ -17,4 +17,4 @@ MonoBehaviour:
   SocketBottom: Empty
   SocketLeft: Empty
   SocketRight: Empty
-  weight: 10
+  Weight: 10

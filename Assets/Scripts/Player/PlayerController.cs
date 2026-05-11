@@ -16,6 +16,7 @@ namespace BackroomsShooter.Player
         
         private Camera _mainCamera;
         private PlayerResources _resources;
+        private float _nextDashTime;
 
         private void Start()
         {
@@ -35,7 +36,7 @@ namespace BackroomsShooter.Player
                 _mousePos = hit.point;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= _nextDashTime)
             {
                 PerformDash();
             }
@@ -43,7 +44,10 @@ namespace BackroomsShooter.Player
 
         private void FixedUpdate()
         {
-            _rb.MovePosition(_rb.position + _moveInput.normalized * MoveSpeed * Time.fixedDeltaTime);
+            float currentSpeed = MoveSpeed;
+            if (_resources != null && _resources.IsReloading) currentSpeed *= 0.4f;
+
+            _rb.MovePosition(_rb.position + _moveInput.normalized * currentSpeed * Time.fixedDeltaTime);
 
             Vector3 lookDir = _mousePos - transform.position;
             lookDir.y = 0;
@@ -55,16 +59,14 @@ namespace BackroomsShooter.Player
 
         private void PerformDash()
         {
-            if (_resources.TryConsumeStamina(DashStaminaConsumption))
-            {
-                Vector3 dashDir = _moveInput.normalized;
-                if (dashDir == Vector3.zero)
-                {
-                    dashDir = transform.forward;
-                }
+            Vector3 dashDir = _moveInput.normalized;
 
+            if (dashDir == Vector3.zero) return;
+
+            if (_resources.ConsumeStamina(DashStaminaConsumption))
+            {
                 _rb.AddForce(dashDir * DashForce, ForceMode.Impulse);
-                Debug.Log("Dash!");
+                _nextDashTime = Time.time + DashCooldown;
             }
         }
 

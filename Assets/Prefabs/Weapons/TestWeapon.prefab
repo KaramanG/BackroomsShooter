@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6088538617966435286}
   - component: {fileID: 3842080312903718938}
   - component: {fileID: 1969533870812788105}
+  - component: {fileID: 513778428439008089}
   m_Layer: 0
   m_Name: TestWeapon
   m_TagString: Untagged
@@ -106,9 +107,23 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &513778428439008089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3835530044212410460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22f1f72960bf1947bdefbb3748254e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.Pickup
+  Type: 1
+  WeaponInfo: {fileID: 11400000, guid: e7e140ce427e6a940851e945aaa9d9da, type: 2}

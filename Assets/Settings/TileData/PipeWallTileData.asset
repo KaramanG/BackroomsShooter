@@ -17,4 +17,4 @@ MonoBehaviour:
   SocketBottom: Wall
   SocketLeft: Empty
   SocketRight: Empty
-  weight: 10
+  Weight: 5

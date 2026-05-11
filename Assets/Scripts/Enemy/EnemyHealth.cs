@@ -7,32 +7,46 @@ namespace BackroomsShooter.Enemy
     public class EnemyHealth : MonoBehaviour, IDamageable
     {
         public int Health = 30;
+
+        [Header("Loot Settings")]
+        public GameObject MagazinePrefab;
+        public GameObject WeaponPrefab;
+
+        [Range(0, 100)] 
+        public float MagazineDropChance = 15f;
+        [Range(0, 100)] 
+        public float WeaponDropChance = 5f;
+
         private bool _isDead = false;
 
         public void TakeDamage(int amount)
         {
             if (_isDead) return;
-
             Health -= amount;
-            Debug.Log($"Enemy took damage! HP: {Health}");
-
-            if (Health <= 0)
-            {
-                Die();
-            }
+            if (Health <= 0) Die();
         }
 
         private void Die()
         {
             _isDead = true;
-            Debug.Log("Enemy has died.");
-
+            SpawnLoot();
             StartCoroutine(FadeAndDestroy());
         }
 
-        private IEnumerator FadeAndDestroy()
+        private void SpawnLoot()
         {
+            float roll = Random.Range(0f, 100f);
+
+            if (roll <= WeaponDropChance)
+                Instantiate(WeaponPrefab, transform.position, Quaternion.identity);
+            else if (roll <= MagazineDropChance + WeaponDropChance)
+                Instantiate(MagazinePrefab, transform.position, Quaternion.identity);
+        }
+
+        private IEnumerator FadeAndDestroy()
+        { 
             GetComponent<Collider>().enabled = false;
+            if (TryGetComponent<UnityEngine.AI.NavMeshAgent>(out var agent)) agent.enabled = false;
 
             float timer = 0;
             Vector3 startScale = transform.localScale;
