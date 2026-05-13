@@ -1780,6 +1780,7 @@ GameObject:
   - component: {fileID: 1282454157}
   - component: {fileID: 1282454156}
   - component: {fileID: 1282454158}
+  - component: {fileID: 1282454161}
   - component: {fileID: 1282454160}
   m_Layer: 6
   m_Name: Player
@@ -1961,7 +1962,7 @@ MonoBehaviour:
   CurrentMagazines: 3
   MaxMagazines: 3
   IsReloading: 0
-  CurrentWeaponData: {fileID: 11400000, guid: e7e140ce427e6a940851e945aaa9d9da, type: 2}
+  CurrentWeaponData: {fileID: 11400000, guid: 5bedfbd6c45645a449df2acfc529b876, type: 2}
 --- !u!82 &1282454159
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2075,6 +2076,19 @@ MonoBehaviour:
   PlayerHurtVolume: 0.671
   ReloadClip: {fileID: 8300000, guid: 26118a9ac043fac48938e7ef8f3c1816, type: 3}
   ReloadVolume: 1
+--- !u!114 &1282454161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282454150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99c3e13344671a4ab7c7d27f7efad53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Player.WeaponVisuals
+  FirePoint: {fileID: 1522740017}
 --- !u!1 &1384368726
 GameObject:
   m_ObjectHideFlags: 0

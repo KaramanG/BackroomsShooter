@@ -24,5 +24,6 @@ namespace BackroomsShooter.Core
 
         [Header("Visuals")]
         public GameObject WeaponModelPrefab;
+        public GameObject PickupModelPrefab;
     }
 }

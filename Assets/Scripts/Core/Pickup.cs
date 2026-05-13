@@ -1,3 +1,5 @@
+using BackroomsShooter.Player;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace BackroomsShooter.Core
@@ -13,15 +15,25 @@ namespace BackroomsShooter.Core
         {
             if (foreign.CompareTag("Player"))
             {
-                var res = foreign.GetComponent<Player.PlayerResources>();
+                var res = foreign.GetComponent<PlayerResources>();
 
-                if (Type == LootType.Magazine) res.AddMagazine();
-
-                else if (Type == LootType.Weapon)
+                switch (Type)
                 {
-                    res.CurrentWeaponData = WeaponInfo;
-                    res.CurrentAmmo = WeaponInfo.MaxAmmo;
-                    res.NotifyUI();
+                    case LootType.Magazine:
+                        res.AddMagazine();
+                        break;
+
+                    case LootType.Weapon:
+                        if (res.CurrentWeaponData != null)
+                        {
+                            Vector3 dropPos = foreign.transform.position + foreign.transform.forward * 3f;
+                            Instantiate(res.CurrentWeaponData.PickupModelPrefab, dropPos, Quaternion.Euler(new Vector3(0, 90, 90)));
+                        }
+
+                        res.CurrentWeaponData = WeaponInfo;
+                        res.CurrentAmmo = 0;
+                        res.NotifyUI();
+                        break;
                 }
 
                 Destroy(gameObject);

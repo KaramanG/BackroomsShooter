@@ -21,4 +21,5 @@ MonoBehaviour:
   ReloadTime: 2
   ShootSound: {fileID: 8300000, guid: 84c9fc35f5ab14a46bc6623fd13c13d4, type: 3}
   ShootVolume: 1
-  WeaponModelPrefab: {fileID: 0}
+  WeaponModelPrefab: {fileID: 8855410573763487900, guid: 4be16666ec6ccfe4a85c7e838e2f0dcc, type: 3}
+  PickupModelPrefab: {fileID: 8195257641505110017, guid: 2f8e29278cb03c0448f3d9f92325c4b6, type: 3}

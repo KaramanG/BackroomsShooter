@@ -9,8 +9,8 @@ namespace BackroomsShooter.Enemy
         public int Health = 30;
 
         [Header("Loot Settings")]
-        public GameObject MagazinePrefab;
-        public GameObject WeaponPrefab;
+        public GameObject MagazinePickupPrefab;
+        public GameObject[] WeaponPickupPrefabs;
 
         [Range(0, 100)] 
         public float MagazineDropChance = 15f;
@@ -38,9 +38,13 @@ namespace BackroomsShooter.Enemy
             float roll = Random.Range(0f, 100f);
 
             if (roll <= WeaponDropChance)
-                Instantiate(WeaponPrefab, transform.position, Quaternion.identity);
+            {
+                var weapon = WeaponPickupPrefabs[Random.Range(0, WeaponPickupPrefabs.Length)];
+                Instantiate(weapon, transform.position, Quaternion.Euler(new Vector3(0, 90, 90)));
+            }
+                
             else if (roll <= MagazineDropChance + WeaponDropChance)
-                Instantiate(MagazinePrefab, transform.position, Quaternion.identity);
+                Instantiate(MagazinePickupPrefab, transform.position, Quaternion.Euler(new Vector3(0, 90, 90)));
         }
 
         private IEnumerator FadeAndDestroy()
