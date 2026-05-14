@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 5746084337204572956}
   - component: {fileID: 7320963632390260383}
   - component: {fileID: 911633375785684066}
+  - component: {fileID: -9213525812550180050}
   m_Layer: 0
   m_Name: Sawed-Off Pickup
   m_TagString: Untagged
@@ -295,6 +296,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.22441208, y: 0.563987, z: 2.0538588}
   m_Center: {x: -0.0000561513, y: 0.28088063, z: 0.8871935}
+--- !u!114 &-9213525812550180050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667595485566009832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e22f1f72960bf1947bdefbb3748254e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.Pickup
+  Type: 1
+  WeaponInfo: {fileID: 11400000, guid: 5bedfbd6c45645a449df2acfc529b876, type: 2}
+  HealthKitRegenAmount: 30
 --- !u!1 &8621065390345435890
 GameObject:
   m_ObjectHideFlags: 0

@@ -131,6 +131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Enemy.EnemyAI
   CurrentState: 0
   DetectionRange: 15
+  AttackDamage: 8
+  AttackRange: 1.5
+  AttackRate: 1.5
 --- !u!114 &6081218998939180578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,11 +148,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Enemy.EnemyHealth
   Health: 30
   MagazinePickupPrefab: {fileID: 4232519093057918243, guid: e32016e9b3b09cf4eadc41d73622d6b5, type: 3}
+  MagazineDropChance: 20
+  HealthKitPrefab: {fileID: 3620374579777913189, guid: 01b1403446ffcdc44bcec4550cc2f81e, type: 3}
+  HealthKitDropChance: 30
   WeaponPickupPrefabs:
   - {fileID: 8195257641505110017, guid: 2f8e29278cb03c0448f3d9f92325c4b6, type: 3}
   - {fileID: 5238594318222935185, guid: 92e37e226b7b5184682b9a877ff8d798, type: 3}
   - {fileID: 5667595485566009832, guid: 79718005e403e3a449eebb5f75be7ec5, type: 3}
-  MagazineDropChance: 20
   WeaponDropChance: 5
 --- !u!195 &3347395694214757025
 NavMeshAgent:
@@ -161,7 +166,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 8
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120

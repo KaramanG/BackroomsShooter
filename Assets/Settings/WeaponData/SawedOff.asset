@@ -20,6 +20,6 @@ MonoBehaviour:
   MaxAmmo: 7
   ReloadTime: 3
   ShootSound: {fileID: 8300000, guid: 81a8f2afc40bfa8468fb3ced034dc0a9, type: 3}
-  ShootVolume: 1
+  ShootVolume: 0.643
   WeaponModelPrefab: {fileID: 6853379301779019794, guid: 631965b9ee0255f4dba4a066ac0e2841, type: 3}
   PickupModelPrefab: {fileID: 5667595485566009832, guid: 79718005e403e3a449eebb5f75be7ec5, type: 3}

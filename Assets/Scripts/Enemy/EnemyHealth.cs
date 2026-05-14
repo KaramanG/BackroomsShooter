@@ -10,11 +10,15 @@ namespace BackroomsShooter.Enemy
 
         [Header("Loot Settings")]
         public GameObject MagazinePickupPrefab;
-        public GameObject[] WeaponPickupPrefabs;
+        [Range(0, 100)]
+        public float MagazineDropChance = 20f;
 
-        [Range(0, 100)] 
-        public float MagazineDropChance = 15f;
-        [Range(0, 100)] 
+        public GameObject HealthKitPrefab;
+        [Range(0, 100)]
+        public float HealthKitDropChance = 20f;
+
+        public GameObject[] WeaponPickupPrefabs;
+        [Range(0, 100)]
         public float WeaponDropChance = 5f;
 
         private bool _isDead = false;
@@ -26,7 +30,7 @@ namespace BackroomsShooter.Enemy
             if (Health <= 0) Die();
         }
 
-        private void Die()
+        protected virtual void Die()
         {
             _isDead = true;
             SpawnLoot();
@@ -43,8 +47,12 @@ namespace BackroomsShooter.Enemy
                 Instantiate(weapon, transform.position, Quaternion.Euler(new Vector3(0, 90, 90)));
             }
                 
-            else if (roll <= MagazineDropChance + WeaponDropChance)
+            else if (roll <= WeaponDropChance + MagazineDropChance)
                 Instantiate(MagazinePickupPrefab, transform.position, Quaternion.Euler(new Vector3(0, 90, 90)));
+
+            else if (roll <= WeaponDropChance + MagazineDropChance + HealthKitDropChance)
+                Instantiate(HealthKitPrefab, transform.position, Quaternion.Euler(new Vector3(90, 0, 0)));
+
         }
 
         private IEnumerator FadeAndDestroy()

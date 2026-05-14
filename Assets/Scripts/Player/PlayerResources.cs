@@ -44,17 +44,14 @@ namespace BackroomsShooter.Player
 
         public void NotifyUI() => OnResourcesChanged?.Invoke();
 
-        public void TakeDamage(int amount)
+        public void TakeDamage(int amount)  // from IDamageable
         {
             CurrentHealth -= amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
             NotifyUI();
             _playerSFX.TakeDamage();
 
-            if (CurrentHealth <= 0)
-            {
-                OnPlayerDeath?.Invoke();
-            }
+            if (CurrentHealth <= 0) OnPlayerDeath?.Invoke();
         }
 
         public bool ConsumeStamina(float amount)
@@ -105,6 +102,15 @@ namespace BackroomsShooter.Player
             CurrentAmmo = CurrentWeaponData.MaxAmmo;
             NotifyUI();
             IsReloading = false;
+        }
+
+        public void RegenHealth(int amount)
+        {
+            if (GameManager.Instance.CurrentState == GameState.GameOver) return;
+
+            CurrentHealth += amount;
+            CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+            NotifyUI();
         }
 
         private void RegenStamina()

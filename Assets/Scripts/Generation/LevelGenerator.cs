@@ -53,6 +53,13 @@ namespace BackroomsShooter.Generation
             if (UseRandomSeed) Seed = Random.Range(0, int.MaxValue);
             Random.InitState(Seed);
 
+            var settings = Core.LevelManager.Instance.GetCurrentLevel();
+            GridSizeX = settings.GridSize;
+            GridSizeY = settings.GridSize;
+            TilePool = settings.TilePool;
+            EmptyFloorTile = settings.EmptyTile;
+            RenderSettings.ambientLight = settings.AmbientColor;
+
             _centerX = GridSizeX / 2;
             _centerY = GridSizeY / 2;
 
@@ -134,6 +141,12 @@ namespace BackroomsShooter.Generation
             GameObject goal = new GameObject("ExitPoint");
             goal.transform.position = new Vector3((GridSizeX - _centerX) * TileSize, 0, (GridSizeY - _centerY) * TileSize);
             FindFirstObjectByType<UI.Compass>().Target = goal.transform;
+
+            var settings = Core.LevelManager.Instance.GetCurrentLevel();
+            Vector3 bossPos = new Vector3((GridSizeX - _centerX) * TileSize, 1, (GridSizeY - _centerY) * TileSize);
+            Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+
+            Core.GameManager.Instance.ChangeState(Core.GameState.Gameplay);
         }
 
         private void NotifyActorsLevelReady()

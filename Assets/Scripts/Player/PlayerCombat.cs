@@ -6,6 +6,7 @@ namespace BackroomsShooter.Player
     public class PlayerCombat : MonoBehaviour
     {
         public Transform FirePoint;
+        public GameObject BulletPrefab;
 
         private float _nextFireTime;
         private PlayerResources _playerResources;
@@ -24,6 +25,8 @@ namespace BackroomsShooter.Player
 
         private void Shoot()
         {
+            if (Time.timeScale == 0f) return;
+
             WeaponData data = _playerResources.CurrentWeaponData;
             if (data == null || _playerResources.IsReloading) return;
 
@@ -34,12 +37,12 @@ namespace BackroomsShooter.Player
             }
 
             _playerResources.UseAmmo();
-
             _nextFireTime = Time.time + data.FireRate;
 
-            Debug.DrawRay(FirePoint.position, FirePoint.forward * 50f, Color.red, 0.1f);
-            int layerMask = ~LayerMask.GetMask("Player");
+            if (BulletPrefab != null) 
+                Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
 
+            int layerMask = ~LayerMask.GetMask("Player");
             if (Physics.Raycast(FirePoint.position, FirePoint.forward, out RaycastHit hit, 50f, layerMask))
             {
                 IDamageable target = hit.collider.GetComponent<IDamageable>();

@@ -28,21 +28,30 @@ namespace BackroomsShooter.Core
             switch (newState)
             {
                 case GameState.MainMenu:
+                    Time.timeScale = 1f;
                     SceneManager.LoadScene("MainMenu");
                     break;
 
                 case GameState.GeneratingLevel:
+                    Time.timeScale = 1f;
+                    SceneManager.LoadScene("GameScene");
                     break;
 
                 case GameState.Gameplay:
+                    Time.timeScale = 1f;
                     break;
 
                 case GameState.Paused:
+                    Time.timeScale = 0f;
                     break;
 
                 case GameState.GameOver:
+                    Time.timeScale = 0f;
                     break;
             }
         }
+
+        public void QuitGame() => Application.Quit();
+
     }
 }

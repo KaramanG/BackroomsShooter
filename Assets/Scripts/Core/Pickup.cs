@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace BackroomsShooter.Core
 {
-    public enum LootType { Magazine, Weapon }
+    public enum LootType { Magazine, Weapon, HealthKit }
 
     public class Pickup : MonoBehaviour
     {
         public LootType Type;
         public WeaponData WeaponInfo;
+        public int HealthKitRegenAmount = 30;
 
         private void OnTriggerEnter(Collider foreign)
         {
@@ -26,13 +27,17 @@ namespace BackroomsShooter.Core
                     case LootType.Weapon:
                         if (res.CurrentWeaponData != null)
                         {
-                            Vector3 dropPos = foreign.transform.position + foreign.transform.forward * 3f;
+                            Vector3 dropPos = foreign.transform.position - foreign.transform.forward * 3f;
                             Instantiate(res.CurrentWeaponData.PickupModelPrefab, dropPos, Quaternion.Euler(new Vector3(0, 90, 90)));
                         }
 
                         res.CurrentWeaponData = WeaponInfo;
                         res.CurrentAmmo = 0;
                         res.NotifyUI();
+                        break;
+
+                    case LootType.HealthKit:
+                        res.RegenHealth(HealthKitRegenAmount);
                         break;
                 }
 
