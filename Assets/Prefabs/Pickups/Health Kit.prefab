@@ -148,6 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22f1f72960bf1947bdefbb3748254e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.Pickup
-  Type: 0
+  Type: 2
   WeaponInfo: {fileID: 0}
   HealthKitRegenAmount: 30

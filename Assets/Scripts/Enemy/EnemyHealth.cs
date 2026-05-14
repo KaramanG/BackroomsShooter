@@ -60,6 +60,9 @@ namespace BackroomsShooter.Enemy
             GetComponent<Collider>().enabled = false;
             if (TryGetComponent<UnityEngine.AI.NavMeshAgent>(out var agent)) agent.enabled = false;
 
+            GetComponent<Animator>().SetTrigger("Death");
+            yield return new WaitForSeconds(3f);
+
             float timer = 0;
             Vector3 startScale = transform.localScale;
 

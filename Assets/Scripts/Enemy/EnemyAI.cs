@@ -18,6 +18,7 @@ namespace BackroomsShooter.Enemy
         public float AttackRate = 1.5f;
 
         private NavMeshAgent _agent;
+        private Animator _animator;
         private Transform _player;
         private Vector3 _lastNoisePosition;
         private float _nextAttackTime;
@@ -26,6 +27,7 @@ namespace BackroomsShooter.Enemy
         private void Start()
         {
             _agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
 
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
             if (playerObj != null)
@@ -56,12 +58,14 @@ namespace BackroomsShooter.Enemy
             switch (CurrentState)
             {
                 case AIState.Idle:
+                    _animator.SetBool("IsRunning", false);
                     if (distanceToPlayer <= DetectionRange)
                         CurrentState = AIState.Chase;
                     break;
 
                 case AIState.Investigate:
                     if (!_agent.isActiveAndEnabled) break;
+                    _animator.SetBool("IsRunning", true);
                     _agent.SetDestination(_lastNoisePosition);
 
                     if (_agent.remainingDistance <= _agent.stoppingDistance)
@@ -73,6 +77,7 @@ namespace BackroomsShooter.Enemy
                 
                 case AIState.Chase:
                     if (!_agent.isActiveAndEnabled) break;
+                    _animator.SetBool("IsRunning", true);
                     _agent.SetDestination(_player.position);
 
                     if (distanceToPlayer <= AttackRange)
@@ -96,6 +101,7 @@ namespace BackroomsShooter.Enemy
                     {
                         TryDealDamage();
                         _nextAttackTime = Time.time + AttackRate;
+                        _animator.SetTrigger("Attack");
                     }
 
                     if (distanceToPlayer > AttackRange)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace BackroomsShooter.Player
@@ -13,9 +14,13 @@ namespace BackroomsShooter.Player
         private Rigidbody _rb;
         private Vector3 _moveInput;
         private Vector3 _mousePos;
+        private Animator _animator;
         
         private Camera _mainCamera;
         private PlayerResources _resources;
+
+        private bool _isDashing;
+        private Vector3 _dashDir;
         private float _nextDashTime;
 
         private void Start()
@@ -23,6 +28,7 @@ namespace BackroomsShooter.Player
             _rb = GetComponent<Rigidbody>();
             _mainCamera = Camera.main;
             _resources = GetComponent<PlayerResources>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -32,18 +38,19 @@ namespace BackroomsShooter.Player
 
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
-            {
                 _mousePos = hit.point;
-            }
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= _nextDashTime && !_resources.IsReloading)
-            {
                 PerformDash();
-            }
+
+            UpdateAnimations();
         }
 
         private void FixedUpdate()
         {
+            if (_isDashing)
+                return;
+
             float currentSpeed = MoveSpeed;
             if (_resources != null && _resources.IsReloading) currentSpeed *= 0.4f;
 
@@ -65,9 +72,29 @@ namespace BackroomsShooter.Player
 
             if (_resources.ConsumeStamina(DashStaminaConsumption))
             {
-                _rb.AddForce(dashDir * DashForce, ForceMode.Impulse);
-                _nextDashTime = Time.time + DashCooldown;
+                StartCoroutine(DashCoroutine(dashDir));
             }
+        }
+
+        private IEnumerator DashCoroutine(Vector3 dashDir)
+        {
+            _isDashing = true;
+            _nextDashTime = Time.time + DashCooldown;
+
+            _rb.linearVelocity = Vector3.zero;
+            _rb.AddForce(dashDir * DashForce, ForceMode.Impulse);
+
+            yield return new WaitForSeconds(0f);
+            _isDashing = false;
+        }
+
+        private void UpdateAnimations()
+        {
+            if (_animator == null) return;
+
+            Vector3 localMove = transform.InverseTransformDirection(_moveInput);
+            _animator.SetFloat("MoveX", localMove.x);
+            _animator.SetFloat("MoveY", localMove.z);
         }
 
     }

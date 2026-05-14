@@ -138,13 +138,11 @@ namespace BackroomsShooter.Generation
             _navMesh.BuildNavMesh();
             NotifyActorsLevelReady();
 
-            GameObject goal = new GameObject("ExitPoint");
-            goal.transform.position = new Vector3((GridSizeX - _centerX) * TileSize, 0, (GridSizeY - _centerY) * TileSize);
-            FindFirstObjectByType<UI.Compass>().Target = goal.transform;
-
             var settings = Core.LevelManager.Instance.GetCurrentLevel();
-            Vector3 bossPos = new Vector3((GridSizeX - _centerX) * TileSize, 1, (GridSizeY - _centerY) * TileSize);
-            Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+            Vector3 bossPos = GetRandomGridPosition(5f);
+            GameObject boss = Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+
+            FindFirstObjectByType<UI.Compass>().Target = boss.transform;
 
             Core.GameManager.Instance.ChangeState(Core.GameState.Gameplay);
         }
@@ -154,7 +152,7 @@ namespace BackroomsShooter.Generation
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
-                player.transform.position = new Vector3(0, 1.5f, 0);
+                player.transform.position = new Vector3(0, 0, 0);
             }
 
             foreach (var ai in FindObjectsByType<Enemy.EnemyAI>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -163,6 +161,32 @@ namespace BackroomsShooter.Generation
                 var agent = ai.GetComponent<UnityEngine.AI.NavMeshAgent>();
                 if (agent != null) agent.enabled = true;
             }
+        }
+
+        private Vector3 GetRandomGridPosition(float minDistanceFromCenter)
+        {
+            int randomX = _centerX;
+            int randomY = _centerY;
+            int maxAttempts = 100;
+            int attempts = 0;
+
+            while (attempts < maxAttempts)
+            {
+                randomX = Random.Range(0, GridSizeX);
+                randomY = Random.Range(0, GridSizeY);
+
+                float dist = Vector2.Distance(new Vector2Int(randomX, randomY), new Vector2Int(_centerX, _centerY));
+
+                if (dist >= minDistanceFromCenter)
+                    break;
+
+                attempts++;
+            }
+
+            float worldX = (randomX - _centerX) * TileSize;
+            float worldZ = (randomY - _centerY) * TileSize;
+
+            return new Vector3(worldX, 0f, worldZ);
         }
 
         private bool IterateWFC()

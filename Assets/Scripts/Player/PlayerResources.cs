@@ -26,10 +26,12 @@ namespace BackroomsShooter.Player
         public static event Action OnResourcesChanged;
         public static event Action OnPlayerDeath;
 
+        private Animator _animator;
         private PlayerSFX _playerSFX;
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
             _playerSFX = GetComponent<PlayerSFX>();
 
             CurrentHealth = MaxHealth;
@@ -96,6 +98,7 @@ namespace BackroomsShooter.Player
         private IEnumerator ReloadCoroutine()
         {
             IsReloading = true;
+            _animator.SetTrigger("Reload");
             yield return new WaitForSeconds(CurrentWeaponData.ReloadTime);
 
             CurrentMagazines--;

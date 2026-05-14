@@ -73,3 +73,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+
+# Project-specific files
+Assets/Imported Assets/Mixamo/Ch10/Ch10_nonPBR.fbx
+Assets/Imported Assets/Mixamo/Swat Guy/Ch15_nonPBR.fbx
+Assets/Imported Assets/Mixamo/Warrok/Warrok W Kurniawan.fbx

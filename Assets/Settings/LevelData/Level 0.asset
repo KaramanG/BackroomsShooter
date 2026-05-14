@@ -22,6 +22,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b4b2e39582dea68459748f6a6645db01, type: 2}
   - {fileID: 11400000, guid: cc50a8dc0e3007344b1eeb9a7eefb08b, type: 2}
   EmptyTile: {fileID: 11400000, guid: a222675a5b3591643b6b0c69079441ac, type: 2}
-  BossPrefab: {fileID: 2547432737389438570, guid: a5edf09445f2061489215e60dc16b22e, type: 3}
+  BossPrefab: {fileID: 8964725721854388842, guid: dea63afd681a4a84fafc7f63713222f8, type: 3}
   AmbientColor: {r: 1, g: 0.91426307, b: 0.75, a: 1}
   DifficultyMultiplier: 1
