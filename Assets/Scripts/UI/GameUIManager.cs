@@ -1,5 +1,7 @@
 using BackroomsShooter.Core;
+using BackroomsShooter.Generation;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace BackroomsShooter.UI
@@ -61,7 +63,28 @@ namespace BackroomsShooter.UI
 
         public void SaveGame()
         {
-            
+            var playerRes = FindFirstObjectByType<Player.PlayerResources>();
+            var levelGen = FindFirstObjectByType<LevelGenerator>();
+            var boss = GameObject.FindGameObjectWithTag("Boss");
+
+            SaveData data = new SaveData
+            {
+                PlayerHP = playerRes.CurrentHealth,
+                PlayerAmmo = playerRes.CurrentAmmo,
+                PlayerMagazines = playerRes.CurrentMagazines,
+                WeaponName = playerRes.CurrentWeaponData.WeaponName,
+
+                PlayerX = playerRes.transform.position.x,
+                PlayerZ = playerRes.transform.position.z,
+
+                LevelSeed = levelGen.Seed,
+                LevelIndex = LevelManager.Instance.CurrentLevelIndex,
+
+                BossX = boss.transform.position.x,
+                BossZ = boss.transform.position.z
+            };
+
+            SaveSystem.Save(data);
         }
 
         public void ShowDeathScreen()

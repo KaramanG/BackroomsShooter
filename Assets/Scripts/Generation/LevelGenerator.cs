@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using System.Collections;
+using BackroomsShooter.Core;
 
 namespace BackroomsShooter.Generation
 {
@@ -50,7 +51,16 @@ namespace BackroomsShooter.Generation
                 else DestroyImmediate(child.gameObject);
             }
 
-            if (UseRandomSeed) Seed = Random.Range(0, int.MaxValue);
+            SaveData saved = SaveSystem.CachedData;
+            if (saved != null)
+            {
+                Seed = saved.LevelSeed;
+                LevelManager.Instance.CurrentLevelIndex = saved.LevelIndex;
+            }
+            else if (UseRandomSeed)
+            {
+                Seed = Random.Range(0, int.MaxValue);
+            }
             Random.InitState(Seed);
 
             var settings = Core.LevelManager.Instance.GetCurrentLevel();
@@ -136,23 +146,46 @@ namespace BackroomsShooter.Generation
         private void FinalizeLevel()
         {
             _navMesh.BuildNavMesh();
-            NotifyActorsLevelReady();
 
-            var settings = Core.LevelManager.Instance.GetCurrentLevel();
-            Vector3 bossPos = GetRandomGridPosition(5f);
-            GameObject boss = Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+            Vector3 bossPos;
+            GameObject boss;
+            var settings = LevelManager.Instance.GetCurrentLevel();
+
+            SaveData saved = SaveSystem.CachedData;
+            if (saved != null)
+            {
+                bossPos = new Vector3(saved.BossX, 0f, saved.BossZ);
+                boss = Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+            }
+            else
+            {
+                bossPos = GetRandomGridPosition(5f);
+                boss = Instantiate(settings.BossPrefab, bossPos, Quaternion.identity);
+            }
 
             FindFirstObjectByType<UI.Compass>().Target = boss.transform;
 
-            Core.GameManager.Instance.ChangeState(Core.GameState.Gameplay);
+            NotifyActorsLevelReady();
+            GameManager.Instance.ChangeState(GameState.Gameplay);
+
+            SaveSystem.ClearSave();
         }
 
         private void NotifyActorsLevelReady()
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+
             if (player != null)
             {
-                player.transform.position = new Vector3(0, 0, 0);
+                SaveData saved = SaveSystem.CachedData;
+                if (saved != null)
+                {
+                    player.transform.position = new Vector3(saved.PlayerX, 0f, saved.PlayerZ);
+                }
+                else
+                {
+                    player.transform.position = new Vector3(0, 0, 0);
+                }
             }
 
             foreach (var ai in FindObjectsByType<Enemy.EnemyAI>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -161,6 +194,8 @@ namespace BackroomsShooter.Generation
                 var agent = ai.GetComponent<UnityEngine.AI.NavMeshAgent>();
                 if (agent != null) agent.enabled = true;
             }
+
+            SaveSystem.ClearSave();
         }
 
         private Vector3 GetRandomGridPosition(float minDistanceFromCenter)

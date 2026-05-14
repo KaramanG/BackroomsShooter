@@ -1320,6 +1320,10 @@ MonoBehaviour:
   MaxMagazines: 3
   IsReloading: 0
   CurrentWeaponData: {fileID: 11400000, guid: e7e140ce427e6a940851e945aaa9d9da, type: 2}
+  AllAvailableWeapons:
+  - {fileID: 11400000, guid: e7e140ce427e6a940851e945aaa9d9da, type: 2}
+  - {fileID: 11400000, guid: a62f0ee84d4442e4b973fac247c4d527, type: 2}
+  - {fileID: 11400000, guid: 5bedfbd6c45645a449df2acfc529b876, type: 2}
 --- !u!114 &4697442930358010126
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 using BackroomsShooter.Core;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace BackroomsShooter.Player
 {
@@ -23,6 +24,9 @@ namespace BackroomsShooter.Player
         public bool IsReloading = false;
         public WeaponData CurrentWeaponData;
 
+        [Header("All Weapons")]
+        public List<WeaponData> AllAvailableWeapons;
+
         public static event Action OnResourcesChanged;
         public static event Action OnPlayerDeath;
 
@@ -34,9 +38,27 @@ namespace BackroomsShooter.Player
             _animator = GetComponent<Animator>();
             _playerSFX = GetComponent<PlayerSFX>();
 
-            CurrentHealth = MaxHealth;
-            CurrentStamina = MaxStamina;
-            if (CurrentWeaponData != null) CurrentAmmo = CurrentWeaponData.MaxAmmo;
+            if (SaveSystem.CachedData != null)
+            {
+                CurrentHealth = SaveSystem.CachedData.PlayerHP;
+                CurrentAmmo = SaveSystem.CachedData.PlayerAmmo;
+                CurrentMagazines = SaveSystem.CachedData.PlayerMagazines;
+
+                if (!string.IsNullOrEmpty(SaveSystem.CachedData.WeaponName))
+                {
+                    WeaponData foundWeapon = AllAvailableWeapons.Find(w => w.WeaponName == SaveSystem.CachedData.WeaponName);
+                    if (foundWeapon != null) CurrentWeaponData = foundWeapon;
+                }
+            }
+            else
+            {
+                CurrentHealth = MaxHealth;
+                CurrentStamina = MaxStamina;
+                CurrentMagazines = MaxMagazines;
+                if (CurrentWeaponData != null) CurrentAmmo = CurrentWeaponData.MaxAmmo;
+            }
+
+            NotifyUI();
         }
 
         private void Update()
