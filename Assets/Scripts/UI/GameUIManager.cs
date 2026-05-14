@@ -84,6 +84,8 @@ namespace BackroomsShooter.UI
                 BossZ = boss.transform.position.z
             };
 
+            Debug.Log($"saved at {data.PlayerX} {data.PlayerZ}");
+
             SaveSystem.Save(data);
         }
 

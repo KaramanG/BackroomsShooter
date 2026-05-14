@@ -20,7 +20,6 @@ namespace BackroomsShooter.Player
         private PlayerResources _resources;
 
         private bool _isDashing;
-        private Vector3 _dashDir;
         private float _nextDashTime;
 
         private void Start()

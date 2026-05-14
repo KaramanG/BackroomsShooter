@@ -165,27 +165,32 @@ namespace BackroomsShooter.Generation
 
             FindFirstObjectByType<UI.Compass>().Target = boss.transform;
 
-            NotifyActorsLevelReady();
+            NotifyActorsLevelReady(saved);
             GameManager.Instance.ChangeState(GameState.Gameplay);
-
-            SaveSystem.ClearSave();
         }
 
-        private void NotifyActorsLevelReady()
+        private void NotifyActorsLevelReady(SaveData saved)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
 
             if (player != null)
-            {
-                SaveData saved = SaveSystem.CachedData;
+            {   
+                Rigidbody rb = player.GetComponent<Rigidbody>();
+                rb.isKinematic = true;
+
                 if (saved != null)
                 {
-                    player.transform.position = new Vector3(saved.PlayerX, 0f, saved.PlayerZ);
+                    player.transform.position = new Vector3(saved.PlayerX, 1.0f, saved.PlayerZ);
                 }
                 else
                 {
-                    player.transform.position = new Vector3(0, 0, 0);
+                    player.transform.position = new Vector3(0f, 1.0f, 0f);
                 }
+
+                Physics.SyncTransforms();
+                rb.isKinematic = false;
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
             }
 
             foreach (var ai in FindObjectsByType<Enemy.EnemyAI>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -194,8 +199,6 @@ namespace BackroomsShooter.Generation
                 var agent = ai.GetComponent<UnityEngine.AI.NavMeshAgent>();
                 if (agent != null) agent.enabled = true;
             }
-
-            SaveSystem.ClearSave();
         }
 
         private Vector3 GetRandomGridPosition(float minDistanceFromCenter)
