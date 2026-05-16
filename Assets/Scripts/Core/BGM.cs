@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,19 +14,37 @@ namespace BackroomsShooter.Core
         private void Start()
         {
             _audioSource = GetComponent<AudioSource>();
-            PlayBGM();
+            if (_audioSource != null && AudioClips.Count > 0) PlayBGM();
         }
 
         public void PlayBGM()
         {
-            if (_audioSource == null) return;
+            if (_audioSource == null || AudioClips.Count == 0) return;
 
-            System.Random sysRand = new System.Random();
-            int track = sysRand.Next(0, AudioClips.Count);
+            StopAllCoroutines();
 
-            _audioSource.clip = AudioClips[track];
+            int trackIndex = GetNewTrackIndex();
+           
+            _audioSource.clip = AudioClips[trackIndex];
             _audioSource.volume = BaseVolume;
             _audioSource.Play();
+
+            StartCoroutine(TrackEndCoroutine());
+        }
+
+        private int GetNewTrackIndex()
+        {
+            System.Random sysRand = new System.Random();
+            int track = sysRand.Next(0, AudioClips.Count);
+            return track;
+        }
+
+        private IEnumerator TrackEndCoroutine()
+        {
+            while (_audioSource.isPlaying)
+                yield return new WaitForSeconds(1f);
+
+            PlayBGM();
         }
 
         public void MuffleAudio()

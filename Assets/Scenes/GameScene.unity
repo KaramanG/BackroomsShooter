@@ -1355,7 +1355,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1450,9 +1450,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.BGM
   AudioClips:
+  - {fileID: 8300000, guid: 23488ada2e37866498a0a0f3f5aaf097, type: 3}
   - {fileID: 8300000, guid: e447cba400b509a4cb3997909071accc, type: 3}
   - {fileID: 8300000, guid: af481e4a67abe2449917fad77e54fdc3, type: 3}
   - {fileID: 8300000, guid: a59c858f6ffd5514bb6791dc112b87f7, type: 3}
+  - {fileID: 8300000, guid: 5f9acd6d1266b0d49be11957a77b0e70, type: 3}
   BaseVolume: 0.1
 --- !u!1 &553228351
 GameObject:
