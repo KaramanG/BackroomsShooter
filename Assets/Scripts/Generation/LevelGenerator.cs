@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.AI.Navigation;
 using System.Collections;
 using BackroomsShooter.Core;
+using BackroomsShooter.Enemy;
 
 namespace BackroomsShooter.Generation
 {
@@ -24,6 +25,7 @@ namespace BackroomsShooter.Generation
         [Header("Data")]
         public List<TileData> TilePool;
         public TileData EmptyFloorTile;
+        public GameObject FloorPrefab;
 
         private WFC_Cell[,] _grid;
         private List<TileVariant> _allVariants;
@@ -45,11 +47,7 @@ namespace BackroomsShooter.Generation
         public void GenerateLevel()
         {
             StopAllCoroutines();
-            foreach (Transform child in transform)
-            {
-                if (Application.isPlaying) Destroy(child.gameObject);
-                else DestroyImmediate(child.gameObject);
-            }
+            CleanScene();
 
             SaveData saved = SaveSystem.CachedData;
             if (saved != null)
@@ -63,23 +61,45 @@ namespace BackroomsShooter.Generation
             }
             Random.InitState(Seed);
 
-            var settings = Core.LevelManager.Instance.GetCurrentLevel();
+            var settings = LevelManager.Instance.GetCurrentLevel();
             GridSizeX = settings.GridSize;
             GridSizeY = settings.GridSize;
             TilePool = settings.TilePool;
             EmptyFloorTile = settings.EmptyTile;
+            FloorPrefab = settings.FloorPrefab;
             RenderSettings.ambientLight = settings.AmbientColor;
+
+            Instantiate(FloorPrefab, new Vector3(0, -1, 0), Quaternion.identity, this.transform);
 
             _centerX = GridSizeX / 2;
             _centerY = GridSizeY / 2;
 
             InitializeVariants();
             InitializeGrid();
-
             ForceTileAt(new Vector2Int(_centerX, _centerY), EmptyFloorTile);
 
             if (VisualizeGeneration) StartCoroutine(GenerationCoroutine());
             else InstantGeneration();
+        }
+
+        private void CleanScene()
+        {
+            if (_navMesh != null) _navMesh.RemoveData();
+
+            foreach (Transform child in transform)
+            {
+                if (Application.isPlaying) Destroy(child.gameObject);
+                else DestroyImmediate(child.gameObject);
+            }
+
+            Pickup[] pickups = FindObjectsByType<Pickup>(FindObjectsSortMode.None);
+            foreach (var p in pickups) Destroy(p.gameObject);
+
+            GameObject oldFloor = GameObject.FindGameObjectWithTag("LevelFloor");
+            if (oldFloor != null) Destroy(oldFloor);
+
+            EnemyAI[] enemies = FindObjectsByType<EnemyAI>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var e in enemies) Destroy(e.gameObject);
         }
 
         private void InitializeVariants()

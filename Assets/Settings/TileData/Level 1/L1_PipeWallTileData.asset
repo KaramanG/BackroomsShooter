@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e17d871ab588cc479afce587f6a4410, type: 3}
-  m_Name: L-WallTileData
+  m_Name: L1_PipeWallTileData
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Generation.TileData
-  Prefab: {fileID: 7485524144622549348, guid: e32dadffabe16354ea0a4aff6767396e, type: 3}
+  Prefab: {fileID: 7485524144622549348, guid: ae9606cd82941ec4daac759f3e3f99bb, type: 3}
   SocketTop: Wall
-  SocketBottom: Empty
+  SocketBottom: Wall
   SocketLeft: Empty
-  SocketRight: Wall
-  weight: 10
+  SocketRight: Empty
+  Weight: 10

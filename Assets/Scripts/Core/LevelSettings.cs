@@ -12,6 +12,7 @@ namespace BackroomsShooter.Core
         public List<TileData> TilePool;
         public TileData EmptyTile;
         public GameObject BossPrefab;
+        public GameObject FloorPrefab;
         public Color AmbientColor = Color.gray;
         public float DifficultyMultiplier = 1.0f;
     }
