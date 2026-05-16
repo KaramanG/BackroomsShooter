@@ -1059,7 +1059,6 @@ MonoBehaviour:
   HealthKitPrefab: {fileID: 3620374579777913189, guid: 01b1403446ffcdc44bcec4550cc2f81e, type: 3}
   HealthKitDropChance: 30
   WeaponPickupPrefabs:
-  - {fileID: 8195257641505110017, guid: 2f8e29278cb03c0448f3d9f92325c4b6, type: 3}
   - {fileID: 5238594318222935185, guid: 92e37e226b7b5184682b9a877ff8d798, type: 3}
   - {fileID: 5667595485566009832, guid: 79718005e403e3a449eebb5f75be7ec5, type: 3}
   WeaponDropChance: 5

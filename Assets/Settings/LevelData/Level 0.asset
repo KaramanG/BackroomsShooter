@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 0
   m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.LevelSettings
   LevelName: Level 0
-  GridSize: 25
+  GridSize: 51
   TilePool:
   - {fileID: 11400000, guid: a222675a5b3591643b6b0c69079441ac, type: 2}
   - {fileID: 11400000, guid: c44d2411399bba04298bb8086de8b2e3, type: 2}
