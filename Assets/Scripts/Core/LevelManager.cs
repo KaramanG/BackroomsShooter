@@ -26,13 +26,9 @@ namespace BackroomsShooter.Core
         {
             CurrentLevelIndex++;
             if (CurrentLevelIndex < Levels.Count)
-            {
                 FindFirstObjectByType<Generation.LevelGenerator>().GenerateLevel();
-            }
             else
-            {
-                Debug.Log("Victory!");
-            }
+                FindFirstObjectByType<UI.GameUIManager>().ShowWinScreen();
         }
 
     }

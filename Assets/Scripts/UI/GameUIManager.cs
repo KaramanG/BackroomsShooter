@@ -14,6 +14,7 @@ namespace BackroomsShooter.UI
         [SerializeField] private GameObject activeUI;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject deathPanel;
+        [SerializeField] private GameObject winPanel;
 
         [Header("Pause Buttons")]
         [SerializeField] private Button resumeButton;
@@ -22,6 +23,9 @@ namespace BackroomsShooter.UI
 
         [Header("Death Buttons")]
         [SerializeField] private Button mainMenuButton;
+        
+        [Header("Win Buttons")]
+        [SerializeField] private Button mainMenuWinButton;
 
         private void Start()
         {
@@ -29,6 +33,7 @@ namespace BackroomsShooter.UI
             saveButton.onClick.AddListener(SaveGame);
             exitButton.onClick.AddListener(ToMainMenu);
             mainMenuButton.onClick.AddListener(ToMainMenu);
+            mainMenuWinButton.onClick.AddListener(ToMainMenu);
 
             Player.PlayerResources.OnPlayerDeath += ShowDeathScreen;
         }
@@ -91,6 +96,13 @@ namespace BackroomsShooter.UI
         {
             deathPanel.SetActive(true);
             bgm.PauseAudio();
+            GameManager.Instance.ChangeState(GameState.GameOver);
+        }
+
+        public void ShowWinScreen()
+        {
+            winPanel.SetActive(true);
+            bgm.MuffleAudio();
             GameManager.Instance.ChangeState(GameState.GameOver);
         }
 

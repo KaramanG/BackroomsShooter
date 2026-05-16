@@ -180,7 +180,8 @@ MonoBehaviour:
   Levels:
   - {fileID: 11400000, guid: 6afc7b4e5c632c441b02c524cd93f43a, type: 2}
   - {fileID: 11400000, guid: 13e00dc3bd7a4fa4b9318cbcc9a17843, type: 2}
-  CurrentLevelIndex: 1
+  - {fileID: 11400000, guid: 057b82faf2e9afb45808012dd7983762, type: 2}
+  CurrentLevelIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
