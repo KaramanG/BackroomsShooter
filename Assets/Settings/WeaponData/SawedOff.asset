@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e98d37597d257418d4dcf455f5678d, type: 3}
+  m_Name: SawedOff
+  m_EditorClassIdentifier: Assembly-CSharp::BackroomsShooter.Core.WeaponData
+  WeaponName: Sawed-Off
+  WeaponIcon: {fileID: 21300000, guid: 27e1198efd714bf46971c92b4716ab79, type: 3}
+  Damage: 40
+  FireRate: 0.8
+  NoiseRadius: 100
+  MaxAmmo: 7
+  ReloadTime: 3
+  ShootSound: {fileID: 8300000, guid: 81a8f2afc40bfa8468fb3ced034dc0a9, type: 3}
+  ShootVolume: 0.643
+  WeaponModelPrefab: {fileID: 6853379301779019794, guid: 631965b9ee0255f4dba4a066ac0e2841, type: 3}
+  PickupModelPrefab: {fileID: 5667595485566009832, guid: 79718005e403e3a449eebb5f75be7ec5, type: 3}
